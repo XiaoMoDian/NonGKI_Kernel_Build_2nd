@@ -25,7 +25,7 @@ env:
   GCC_32_BRANCH : "android12L-release"
 
   DEFCONFIG_SOURCE: ""
-  DEFCONFIG_NAME : "vendor/sdm845-perf_defconfig"
+  DEFCONFIG_NAME : ""
   DEFCONFIG_ORIGIN_IMAGE: "https://223-109-125-233-v3.pd1.cjjd19.com/user-other-free-download-cdn.123295.com/123-545/229fd0cc/1812404286-0/229fd0cc79320bb6ca8310d8c64e1621/c-m6?bzc=1&bzp=0&bi=187771487&urn=0&r=AO0M3D&v=5&t=1796323596&bzs=313831323430343238363a323a313a3637313038383634&ur=ligvuugvligpu&s=1796323596be4fff08da27d402ccd162cfdd658c33&filename=boot_020408.img&cache_type=2&x-mf-biz-cid=5eb92d59-6bdc-49e9-8d12-9aafbcfddf33&auto_redirect=0&ndcp=1"
   DEFCONFIG_FROM_BOOT: true
 
