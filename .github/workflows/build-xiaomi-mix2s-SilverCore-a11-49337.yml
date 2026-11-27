@@ -114,29 +114,12 @@ jobs:
       - name: 🔗 Patch for no-kprobe
         uses: ./.github/workflows/patch-no-kprobe
 
-      - name: 🪛 Extra Kernel Options
+      -name: 🪛 Extra Kernel Options
         run: |
           # Only ${{ env.DEVICE_NAME }} use it.
           cd $GITHUB_WORKSPACE/device_kernel
 
-          # Get neccssary components
-          # git clone https://github.com/duckyduckG/kernel_techpack_mi845_419.git -b main techpack/mi845
-          # git clone https://github.com/duckyduckG/devicetree_qcom-sdm845_419.git -b main arch/arm64/boot/dts/qcom-sdm845
-          # git clone https://github.com/duckyduckG/devicetree_xiaomi_419.git -b master-dipper arch/arm64/boot/dts/xiaomi
-
-          # Build config
-          echo "CONFIG_COMPAT_VDSO=y" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-          echo "CONFIG_LTO_NONE=n" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-          echo "CONFIG_SHADOW_CALL_STACK=n" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-          echo "CONFIG_RELR=n" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-
-          # EROFS
-          echo "CONFIG_EROFS_FS=y" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-          echo "CONFIG_EROFS_FS_ZIP=y" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-          echo "CONFIG_EROFS_FS_XATTR=y" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-          echo "CONFIG_EROFS_FS_POSIX_ACL=y" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-          echo "CONFIG_EROFS_FS_SECURITY=y" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
-
+          # Nothing
       - name: 🧰 Patch Kernel of Re:Kernel
         uses: ./.github/workflows/patch-rekernel
 
