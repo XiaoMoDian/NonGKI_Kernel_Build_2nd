@@ -115,7 +115,9 @@ jobs:
         uses: ./.github/workflows/patch-no-kprobe
 
       - name: 🪛 Extra Kernel Options
-        run: |
+        run: 
+        # 禁用不支持的 strong 栈保护
+      echo "# CONFIG_CC_STACKPROTECTOR_STRONG is not set" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
           # Only ${{ env.DEVICE_NAME }} use it.
           cd $GITHUB_WORKSPACE/device_kernel
 
