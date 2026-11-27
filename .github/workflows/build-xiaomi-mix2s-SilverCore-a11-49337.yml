@@ -125,7 +125,7 @@ jobs:
           echo "[+] Patched preinit Makefile:"
           grep -n "runner.elf" "$PREINIT_MK" || true
        fi
-      cd $GITHUB_WORKSPACE/device_kernel
+          cd $GITHUB_WORKSPACE/device_kernel
 
           # Nothing
       - name: 🧰 Patch Kernel of Re:Kernel
