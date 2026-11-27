@@ -10,7 +10,7 @@ env:
   DEVICE_CODENAME : "polaris"
 
   CUSTOM_CMDS : "CLANG_TRIPLE=aarch64-linux-gnu-"
-  EXTRA_CMDS: "LD=/absolute/path/to/clang/bin/ld.lld"
+  EXTRA_CMDS: "LD=ld.lld KBUILD_LDFLAGS=-melf64-littleaarch64"
 
   KERNEL_SOURCE : "https://github.com/XiaoMoDian/android_kernel_xiaomi_sdm845.git"
   KERNEL_BRANCH : "twelve"
