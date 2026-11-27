@@ -105,7 +105,7 @@ jobs:
       - name: ⌛️ Compilation environment preparation
         uses: ./.github/workflows/build-env
 
-      - name: ⚙️ Get necessary tools
+      - name: ⚙️ Get neccssary tools
         uses: ./.github/workflows/build-ready
 
       - name: 🪝 Patch Kernel of SUSFS
@@ -116,34 +116,11 @@ jobs:
 
       - name: 🪛 Extra Kernel Options
         run: |
-          set -e
-          cd "$GITHUB_WORKSPACE/device_kernel"
-
-          echo "===== 1. 搜索 runner.elf 到底在哪 ====="
-          grep -rn "runner.elf" drivers/kernelsu/ || true
-
-          echo "===== 2. 清理上一次失败留下的 x86 错误缓存 ====="
-          # 这步极其重要，否则不会重新编译
-          rm -rf out/drivers/kernelsu/preinit
-
-          echo "===== 3. 自动打补丁：强制使用交叉编译器 ====="
-          # 遍历 kernelsu 下所有的 Makefile, Kbuild, *.mk，找到含有 runner.elf 的文件
-          find drivers/kernelsu -type f \( -name "Makefile" -o -name "Kbuild" -o -name "*.mk" \) | while read -r f; do
-            if grep -q "runner.elf" "$f"; then
-              echo "[+] 发现编译规则在: $f"
-              # 如果是用 HOSTCC 编译的，替换成交叉 GCC（这是最常见的罪魁祸首）
-              sed -i 's|\$(HOSTCC)|\$(CROSS_COMPILE)gcc|g' "$f" || true
-              # 如果是用 CC 编译的，替换成交叉 GCC
-              sed -i 's|\$(CC) -static|\$(CROSS_COMPILE)gcc -static|g' "$f" || true
-
-              echo "[+] 修改后的内容预览:"
-              grep -n -A 2 "runner.elf" "$f" || true
-            fi
-          done
+          # Only ${{ env.DEVICE_NAME }} use it.
+          cd $GITHUB_WORKSPACE/device_kernel
 
           # Nothing
-          
-          
+
       - name: 🧰 Patch Kernel of Re:Kernel
         uses: ./.github/workflows/patch-rekernel
 
