@@ -115,8 +115,16 @@ jobs:
         uses: ./.github/workflows/patch-no-kprobe
 
       - name: 🪛 Extra Kernel Options
-        run: 
-          # Only ${{ env.DEVICE_NAME }} use it.
+        run: |
+    cd $GITHUB_WORKSPACE/device_kernel
+    PREINIT_MK="drivers/kernelsu/preinit/Makefile"
+    if [ -f "$PREINIT_MK" ]; then
+      # 给 CC 调用补上 --target 标志（如果尚未存在）
+      grep -q 'target=aarch64' "$PREINIT_MK" || \
+        sed -i 's|\$(CC) |$(CC) --target=aarch64-linux-gnu |g' "$PREINIT_MK"
+      echo "[+] Patched preinit Makefile:"
+      grep -n "runner.elf" "$PREINIT_MK" || true
+    fi
           cd $GITHUB_WORKSPACE/device_kernel
 
           # Nothing
