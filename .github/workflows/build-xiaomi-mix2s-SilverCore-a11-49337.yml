@@ -10,7 +10,7 @@ env:
   DEVICE_CODENAME : "polaris"
 
   CUSTOM_CMDS : "CLANG_TRIPLE=aarch64-linux-gnu-"
-  EXTRA_CMDS : "LD=ld.lld"
+  EXTRA_CMDS : "LDFLAGS=-fuse-ld=lld"
 
   KERNEL_SOURCE : "https://github.com/XiaoMoDian/android_kernel_xiaomi_sdm845.git"
   KERNEL_BRANCH : "twelve"
@@ -92,7 +92,7 @@ env:
 jobs:
   build-kernel:
     name: Xiaomi Mi MIX 2S (miui13 Based A11) (Kernel 4.9)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
