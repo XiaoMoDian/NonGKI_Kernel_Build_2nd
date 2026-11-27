@@ -70,7 +70,7 @@ env:
 
   HOOK_METHOD: "syscall" # Manual hook method ->  syscall.
 
-  KPM_ENABLE: "true" # Anyone devices.
+  KPM_ENABLE: "false" # Anyone devices.
   KPM_INLINE: "false" # Only use it for SukiSU-Ultra.
   KPM_KPATCH_NEXT: "false" # If u want hook KPatch-Next in build step.
   KPM_PATCH_SOURCE: "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU_patch/refs/heads/main/kpm/patch_linux" # If u want to use KPM Inline,so you need set patch exec file source -> raw.githubusercontent.com/Test/Test/patch .
@@ -118,17 +118,29 @@ jobs:
         run: |
           set -e
           cd "$GITHUB_WORKSPACE/device_kernel"
-          PREINIT_MK="drivers/kernelsu/preinit/Makefile"
 
-          if [ -f "$PREINIT_MK" ]; then
-            # 给 CC 调用补上 --target 标志（如果尚未存在）
-            if ! grep -q 'target=aarch64' "$PREINIT_MK"; then
-              sed -i 's|\$(CC) |$(CC) --target=aarch64-linux-gnu |g' "$PREINIT_MK"
+          echo "===== 1. 搜索 runner.elf 到底在哪 ====="
+          grep -rn "runner.elf" drivers/kernelsu/ || true
+
+          echo "===== 2. 清理上一次失败留下的 x86 错误缓存 ====="
+          # 这步极其重要，否则不会重新编译
+          rm -rf out/drivers/kernelsu/preinit
+
+          echo "===== 3. 自动打补丁：强制使用交叉编译器 ====="
+          # 遍历 kernelsu 下所有的 Makefile, Kbuild, *.mk，找到含有 runner.elf 的文件
+          find drivers/kernelsu -type f \( -name "Makefile" -o -name "Kbuild" -o -name "*.mk" \) | while read -r f; do
+            if grep -q "runner.elf" "$f"; then
+              echo "[+] 发现编译规则在: $f"
+              # 如果是用 HOSTCC 编译的，替换成交叉 GCC（这是最常见的罪魁祸首）
+              sed -i 's|\$(HOSTCC)|\$(CROSS_COMPILE)gcc|g' "$f" || true
+              # 如果是用 CC 编译的，替换成交叉 GCC
+              sed -i 's|\$(CC) -static|\$(CROSS_COMPILE)gcc -static|g' "$f" || true
+
+              echo "[+] 修改后的内容预览:"
+              grep -n -A 2 "runner.elf" "$f" || true
             fi
+          done
 
-            echo "[+] Patched preinit Makefile:"
-            grep -n "runner.elf" "$PREINIT_MK" || true
-          fi
           # Nothing
           
           
