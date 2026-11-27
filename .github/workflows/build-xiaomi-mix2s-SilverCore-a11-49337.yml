@@ -9,8 +9,8 @@ env:
   DEVICE_NAME : "xiaomi_mix2s"
   DEVICE_CODENAME : "polaris"
 
-  CUSTOM_CMDS : "CLANG_TRIPLE=aarch64-linux-gnu-"
-  EXTRA_CMDS: "LD=ld.lld KBUILD_LDFLAGS=-melf64-littleaarch64"
+CUSTOM_CMDS : "CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu-"
+EXTRA_CMDS : "LD=ld.lld LDFLAGS=-maarch64linux"
 
   KERNEL_SOURCE : "https://github.com/XiaoMoDian/android_kernel_xiaomi_sdm845.git"
   KERNEL_BRANCH : "twelve"
