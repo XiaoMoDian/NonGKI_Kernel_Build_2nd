@@ -62,7 +62,7 @@ env:
   SUSFS_FOLDER_FIXED: "" # Fill in your patch prefix directory here. Leave it blank if there isn't one. -> your_folder
   SUSFS_PATCH_FIXED: "" # Fill in your patches here. If there are multiple patches, please separate them with a comma. Leave it blank if there isn't one. -> patch1,patch2
 
-  REKERNEL_ENABLE: "false" # if u need Re:Kernel.
+  REKERNEL_ENABLE: "true" # if u need Re:Kernel.
   DROIDSPACES_ENABLE: "true" # if u need Droidspaces or LXC/Docker.
   NOMOUNT_ENABLE: "true" # if u need NoMount.
   FGETPRIORITY_ENABLE: "false" #if u need hide getpriority.
@@ -92,7 +92,7 @@ env:
 jobs:
   build-kernel:
     name: Xiaomi Mi MIX 2S (miui13 Based A11) (Kernel 4.9)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_NOHASHDIR: "true"
@@ -125,7 +125,7 @@ jobs:
           # git clone https://github.com/duckyduckG/devicetree_xiaomi_419.git -b master-dipper arch/arm64/boot/dts/xiaomi
 
           # Build config
-          echo "CONFIG_COMPAT_VDSO=n" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
+          echo "CONFIG_COMPAT_VDSO=y" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
           echo "CONFIG_LTO_NONE=n" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
           echo "CONFIG_SHADOW_CALL_STACK=n" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
           echo "CONFIG_RELR=n" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
