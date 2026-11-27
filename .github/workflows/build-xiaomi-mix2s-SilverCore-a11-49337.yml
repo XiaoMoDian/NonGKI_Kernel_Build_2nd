@@ -9,7 +9,7 @@ env:
   DEVICE_NAME : "xiaomi_mix2s"
   DEVICE_CODENAME : "polaris"
 
-  CUSTOM_CMDS : "CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu-"
+  CUSTOM_CMDS : "CLANG_TRIPLE=aarch64-linux-gnu-"
   EXTRA_CMDS : "LD=ld.lld"
 
   KERNEL_SOURCE : "https://github.com/XiaoMoDian/android_kernel_xiaomi_sdm845.git"
@@ -117,7 +117,6 @@ jobs:
       - name: 🪛 Extra Kernel Options
         run: 
           # Only ${{ env.DEVICE_NAME }} use it.
-          echo "# CONFIG_CC_STACKPROTECTOR_STRONG is not set" >> ./arch/arm64/configs/${{ env.DEFCONFIG_NAME }}
           cd $GITHUB_WORKSPACE/device_kernel
 
           # Nothing
