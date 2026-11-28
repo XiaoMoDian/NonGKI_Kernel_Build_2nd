@@ -13,7 +13,7 @@ env:
   EXTRA_CMDS : ""
 
   KERNEL_SOURCE : "https://github.com/XiaoMoDian/android_kernel_xiaomi_sdm845.git"
-  KERNEL_BRANCH : "eleven"
+  KERNEL_BRANCH : "twelve"
 
   CLANG_SOURCE : "https://github.com/LineageOS/android_prebuilts_clang_kernel_linux-x86_clang-r416183b.git"
   CLANG_BRANCH : "lineage-20.0"
@@ -25,7 +25,7 @@ env:
   GCC_32_BRANCH : "android12L-release"
 
   DEFCONFIG_SOURCE: ""
-  DEFCONFIG_NAME : "stock-polaris_defconfig"
+  DEFCONFIG_NAME : "vendor/xiaomi/mi845_defconfig"
   DEFCONFIG_ORIGIN_IMAGE: ""
   DEFCONFIG_FROM_BOOT: false
 
